@@ -35,7 +35,7 @@
     "style-loader": "^1.0.0",
     "webpack": "^4.39.2",
     "webpack-asset-pipeline": "^1.1.1",
-    "webpack-command": "^0.4.2"
+    "webpack-command": "^0.5.0"
   },
   "dependencies": {
     "core-js": "^3.2.1",
