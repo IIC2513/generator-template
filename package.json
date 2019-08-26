@@ -12,6 +12,10 @@
     "lint-fix": "eslint --fix ./generators .helpers",
     "test": "nyc mocha ./generators/*/*.test.js ./helpers/**/*.test.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IIC2513/template-generator"
+  },
   "files": [
     "generators"
   ],
