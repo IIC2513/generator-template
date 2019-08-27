@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const helpers = require('yeoman-test');
 const path = require('path');
 
-describe('iic2513:app', () => {
+describe('@iic2513/template:app', () => {
   const projectName = 'test-project';
   let installStepCalled = false;
 
