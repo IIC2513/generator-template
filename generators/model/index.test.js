@@ -2,7 +2,7 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
-describe('iic2513:model', () => {
+describe('@iic2513/template:model', () => {
   context('when option --create is present', () => {
     context('when model has one attribute', () => {
       const modelName = 'car';

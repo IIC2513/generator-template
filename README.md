@@ -21,7 +21,7 @@ $ yarn global add yo
 To install the generator:
 
 ```bash
-$ yarn global add generator-iic2513
+$ yarn global add @iic2513/generator-template
 ```
 
 ## How does it work?
