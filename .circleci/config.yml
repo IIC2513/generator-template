@@ -59,7 +59,7 @@ workflows:
   build-and-publish:
     jobs:
       - build
-      - publish
+      - publish:
           requires:
             - build
           filters:
