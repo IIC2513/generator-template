@@ -1,6 +1,6 @@
 {
-  "name": "generator-iic2513",
-  "version": "0.1.0",
+  "name": "@iic2513/generator-iic2513",
+  "version": "0.0.0-development",
   "description": "Project template generator for IIC2513 course at Pontificia Universidad Catolica de Chile",
   "license": "MIT",
   "author": {
@@ -10,7 +10,8 @@
   "scripts": {
     "lint": "eslint ./generators ./helpers",
     "lint-fix": "eslint --fix ./generators .helpers",
-    "test": "nyc mocha ./generators/*/*.test.js ./helpers/**/*.test.js"
+    "test": "nyc mocha ./generators/*/*.test.js ./helpers/**/*.test.js",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
     "nyc": "^14.1.1",
     "sinon": "^7.4.1",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^2.0.0"
+    "yeoman-test": "^2.0.0",
+    "semantic-release": "^15.13.24"
   }
 }
