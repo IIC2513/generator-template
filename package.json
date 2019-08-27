@@ -18,7 +18,9 @@
     "url": "https://github.com/IIC2513/template-generator"
   },
   "files": [
-    "generators"
+    "generators",
+    "helpers",
+    "lib"
   ],
   "keywords": [
     "ejs",
