@@ -3,13 +3,15 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+
+defaults: &defaults
+  working_directory: ~/app
+  docker:
+    - image: circleci/node:10.15
+
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:10.15
-
-    working_directory: ~/app
+    <<: *defaults
 
     steps:
       - checkout
@@ -38,8 +40,29 @@ jobs:
           name: Tests
           command: yarn test
 
+      - persist_to_workspace:
+          root: ~/app
+          paths: .
+
+  publish:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Publish package
+          command: yarn semantic-release
+
 workflows:
   version: 2
   build-and-publish:
     jobs:
       - build
+      - publish
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
