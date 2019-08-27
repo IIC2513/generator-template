@@ -4,7 +4,7 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
-describe('iic2513:seed', () => {
+describe('@iic2513/template:seed', () => {
   const seedName = 'test-seed';
 
   function readFilesFromSeedsFolder(runDirectory) {

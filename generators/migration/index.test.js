@@ -5,7 +5,7 @@ const pluralize = require('pluralize');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
-describe('iic2513:migration', () => {
+describe('@iic2513/template:migration', () => {
   const migrationName = 'test-migration';
 
   function readFilesFromMigrationsFolder(runDirectory) {
