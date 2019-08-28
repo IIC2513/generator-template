@@ -23,5 +23,5 @@ module.exports = {
     },
   }),
 
-  down: queryInterface => queryInterface.dropTable('<%= tableName %>'),
+  down: (queryInterface) => queryInterface.dropTable('<%= tableName %>'),
 };
