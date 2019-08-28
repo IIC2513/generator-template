@@ -1,5 +1,8 @@
 # IIC2513 - Project Generator
 
+[![CircleCI](https://circleci.com/gh/IIC2513/generator-template.svg?style=svg)](https://circleci.com/gh/IIC2513/generator-template)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+
 Finally, after a few semesters, we are releasing a public version of our template. Now, any user can contribute to this package and add new cool features!
 
 The first version was developed some time ago (you can see the repo [here](https://github.com/IIC2513/template)), and then we just updated the dependencies.
