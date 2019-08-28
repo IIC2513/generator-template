@@ -5,7 +5,7 @@ const router = new KoaRouter();
 
 router.get('hello', '/', async (ctx) => {
   await ctx.render('hello/index', {
-    nameUrl: name => ctx.router.url('hello.name', name),
+    nameUrl: (name) => ctx.router.url('hello.name', name),
     notice: ctx.flashMessage.notice,
   });
 });
