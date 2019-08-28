@@ -45,7 +45,7 @@ if (developmentMode) {
   // eslint-disable-next-line import/no-extraneous-dependencies, global-require
   const koaWebpack = require('koa-webpack');
   koaWebpack()
-    .then(middleware => app.use(middleware))
+    .then((middleware) => app.use(middleware))
     .catch(console.error); // eslint-disable-line no-console
 }
 

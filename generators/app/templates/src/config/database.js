@@ -23,7 +23,7 @@ const config = {
 Object.keys(config).forEach((configKey) => {
   const configValue = config[configKey];
   if (configValue.extend) {
-    config[configKey] = Object.assign({}, config[configValue.extend], configValue);
+    config[configKey] = { ...config[configValue.extend], ...configValue };
   }
 });
 
