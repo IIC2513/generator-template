@@ -54,7 +54,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-hot-loader": "^4.12.11",
+    "react-hot-loader": "^4.12.12",
     "sequelize": "^5.17.0",
     "sequelize-cli": "^5.5.0"
   },
