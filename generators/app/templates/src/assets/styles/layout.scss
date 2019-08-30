@@ -1,4 +1,44 @@
-html, body {
+$color-white: #fafafa;
+$color-primary-dark: #2c2c5e;
+$color-grey: #333;
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
   margin: 0;
   padding: 0;
+  min-height: 0;
+}
+
+html {
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: 100;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: $color-primary-dark;
+  min-height: 100vh;
+}
+
+header {
+  background-color: $color-grey;
+  height: 40px;
+  width: 90vw;
+  margin: auto;
+
+  img {
+    height: 40px;
+  }
+}
+
+main {
+  width: 90vw;
+  height: calc(100vh - 40px);
+  margin: auto;
+  background-color: $color-white;
+  box-sizing: border-box;
 }
