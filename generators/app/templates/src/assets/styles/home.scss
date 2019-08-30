@@ -1,0 +1,31 @@
+h1 {
+  text-align: center;
+  color: $color-primary-dark;
+}
+
+h2 {
+  color: $color-grey;
+  text-align: center;
+  font-size: 20px;
+}
+
+a.home-link {
+  text-align: center;
+  display: block;
+}
+
+.centered {
+  margin: auto;
+  width: 50%;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+#react-app {
+  margin-top: 5px;
+  background-color: $color-grey;
+  color: $color-white;
+  padding: 30px 15px;
+}
