@@ -1,5 +1,6 @@
 $color-white: #fafafa;
 $color-primary-dark: #2c2c5e;
+$color-primary-light: #525296;
 $color-grey: #333;
 
 *,
@@ -42,4 +43,16 @@ main {
   background-color: $color-white;
   box-sizing: border-box;
   padding: 20px;
+}
+
+a {
+  &:visited,
+  &:link {
+    color: $color-primary-dark;
+  }
+
+  &:hover,
+  &:active {
+    color: $color-primary-light;
+  }
 }
