@@ -1,17 +1,18 @@
-<% if (notice) { %>
-  <p><%= notice %></p>
-<% } %>
+<div class="centered">
+  <h2>Hello <a href="<%= nameUrl('your-name-here') %>">your-name-here</a>.</h2>
 
-<p>
-  Hello… <a href="<%= nameUrl('your-name-here') %>">your-name-here</a>.
-</p>
+  <% if (notice) { %>
+    <p class="status-message"><%= notice %></p>
+  <% } %>
 
-<p>
-  You can also fill this form if you feel like doing so...
-  <form action="/hello" enctype="multipart/form-data" method="post">
-    <input type="text" name="username">
-    <input type="password" name="password">
-    <input type="file" name="uploads" multiple="multiple"><br>
-    <input type="submit" value="Subir">
-  </form>
-</p>
+  <div class="container">
+    <p>You can also fill this form if you feel like doing so...</p>
+    <form action="/hello" enctype="multipart/form-data" method="post">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <input type="file" name="uploads" multiple="multiple">
+      <input type="submit" value="Subir">
+      <a href="/" class="hello-link">Go back</a>
+    </form>
+  </div>
+</div>

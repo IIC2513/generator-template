@@ -1,0 +1,47 @@
+form {
+  margin-top: 20px;
+
+  & > * {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  padding: 5px;
+  outline: none;
+
+  &:not([type='file']) {
+    border: 1px solid rgba($color-grey, 0.2);
+  }
+
+  &[type='submit'] {
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    background-color: $color-primary-dark;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-primary-light;
+    }
+  }
+}
+
+.status-message {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid green;
+  background-color: $color-green-light;
+}
+
+a.hello-link {
+  display: block;
+  text-align: center;
+}
