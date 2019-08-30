@@ -23,6 +23,7 @@ body {
   padding: 0;
   background-color: $color-primary-dark;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 header {
@@ -30,6 +31,7 @@ header {
   height: 40px;
   width: 90vw;
   margin: auto;
+  padding: 0 10px;
 
   img {
     height: 40px;
