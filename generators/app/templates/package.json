@@ -56,7 +56,7 @@
     "react-dom": "^16.9.0",
     "react-hot-loader": "^4.12.12",
     "sequelize": "^5.18.0",
-    "sequelize-cli": "^5.5.0"
+    "sequelize-cli": "^5.5.1"
   },
   "engines": {
     "node": "^10.15.0",
