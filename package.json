@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint": "eslint ./generators ./helpers",
-    "lint-fix": "eslint --fix ./generators .helpers",
+    "lint-fix": "eslint --fix ./generators ./helpers",
     "test": "nyc mocha ./generators/*/*.test.js ./helpers/**/*.test.js",
     "semantic-release": "semantic-release"
   },
