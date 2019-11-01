@@ -1,5 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const developmentMode = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
@@ -48,6 +49,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name]-[hash].css',
       chunkFilename: '[id]-[hash].css',
+    }),
+    new ManifestPlugin({
+      publicPath: '',
     }),
   ],
 };
