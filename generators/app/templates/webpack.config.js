@@ -1,6 +1,5 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WebpackAssetPipeline = require('webpack-asset-pipeline');
 
 const developmentMode = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
@@ -32,9 +31,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=.+)?$/i,
         loader: 'file-loader',
         options: {
-          name: developmentMode
-            ? '[name].[ext]'
-            : '[name]-[hash].[ext]',
+          name: developmentMode ? '[name].[ext]' : '[name]-[hash].[ext]',
         },
       },
       {
@@ -52,6 +49,5 @@ module.exports = {
       filename: '[name]-[hash].css',
       chunkFilename: '[id]-[hash].css',
     }),
-    new WebpackAssetPipeline(),
   ],
 };
