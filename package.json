@@ -45,7 +45,7 @@
     "sinon": "^8.0.2",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^2.0.0",
-    "semantic-release": "^15.13.24"
+    "semantic-release": "^17.0.2"
   },
   "publishConfig": {
     "access": "public"
