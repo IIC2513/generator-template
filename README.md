@@ -12,7 +12,7 @@ The first version was developed some time ago (you can see the repo [here](https
 
 To run this generator (based on [Yeoman](https://yeoman.io/)):
 
-* NodeJS v10.15 or above
+* NodeJS v12.16 or above
 * Yarn
 * Yeoman:
 
