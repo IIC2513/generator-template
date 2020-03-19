@@ -5,7 +5,7 @@ Template built with [koa](http://koajs.com/) for IIC2513 - Tecnologías y Aplica
 ## Prerequisites:
 * PostgreSQL
   * you will need a database with name and user/password as configured in `src/config/database.js`
-* Node.js v10 or above
+* Node.js v12.16 or above
 * [Yarn](https://yarnpkg.com)
 
 ## Project Setup
