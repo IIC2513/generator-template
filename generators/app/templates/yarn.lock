@@ -3976,10 +3976,10 @@ koa-convert@^1.2.0:
     co "^4.6.0"
     koa-compose "^3.0.0"
 
-koa-ejs@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/koa-ejs/-/koa-ejs-4.2.0.tgz#375c38759411e828cf54541a908d9768a3ea65f4"
-  integrity sha512-qNcKySHW0gTPSp7++xP/RET2Vuxs36aV76ezp3DmJZNnTOlylXFMv7c62iutZFsiC5ejTS6y9gcj6DmF5WR82g==
+koa-ejs@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/koa-ejs/-/koa-ejs-4.3.0.tgz#06d8459b1d52f4c41b413d8778f71e1ab2ec5009"
+  integrity sha512-KK1B1YEeq8TOt7hrHwohfHxH03ZqsdhQWeFjmvcWk3arVI/uQOyE4FHQVlg0Ud9eXxlgUfkYqA2MJhfK4ADkAw==
   dependencies:
     debug "^2.6.1"
     ejs "^2.6.1"
