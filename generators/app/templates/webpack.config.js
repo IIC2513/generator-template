@@ -33,6 +33,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: developmentMode ? '[name].[ext]' : '[name]-[hash].[ext]',
+          esModule: false,
         },
       },
       {
@@ -50,8 +51,6 @@ module.exports = {
       filename: '[name]-[hash].css',
       chunkFilename: '[id]-[hash].css',
     }),
-    new ManifestPlugin({
-      publicPath: '',
-    }),
+    new ManifestPlugin(),
   ],
 };

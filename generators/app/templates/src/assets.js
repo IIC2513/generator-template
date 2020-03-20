@@ -11,7 +11,7 @@ try {
 
 module.exports = function assetsBuilder(developmentMode) {
   function assetPath(path) {
-    return `/assets/${(!developmentMode && manifest && manifest[path]) || path}`;
+    return (!developmentMode && manifest && manifest[path]) || `/assets/${path}`;
   }
   return function assets(ctx, next) {
     ctx.state.assetPath = assetPath;
