@@ -1,0 +1,38 @@
+name: release
+
+on: [push]
+  #release:
+  #  types: [created]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.10'
+        registry-url: https://npm.pkg.github.com/
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - uses: actions/cache@v1
+      id: yarn-cache
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - run: yarn install
+    - run: yarn test
+    - name: Set package version
+      run: yarn version --new-version $(git describe --abbrev=0 --tags | cut -c2-) --no-git-tag-version
+    - run: yarn publish
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
