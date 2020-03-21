@@ -32,7 +32,7 @@ jobs:
     - run: yarn install
     - run: yarn test
     - name: Set package version
-      run: yarn version --new-version $(git describe --abbrev=0 --tags | cut -c2-) --no-git-tag-version
+      run: 'yarn version --new-version $(git describe --abbrev=0 --tags | cut -c2-) --no-git-tag-version'
     - run: yarn publish
       env:
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
