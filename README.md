@@ -17,7 +17,7 @@ To run this generator (based on [Yeoman](https://yeoman.io/)):
 * Yeoman:
 
 ```bash
-$ yarn global add yo
+$ npm -g install yo
 ```
 
 ## Installation
@@ -25,7 +25,7 @@ $ yarn global add yo
 To install the generator:
 
 ```bash
-$ yarn global add @iic2513/generator-template
+$ npm -g install @iic2513/generator-template
 ```
 
 ## How does it work?
