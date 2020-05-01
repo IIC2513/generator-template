@@ -17,7 +17,7 @@ To run this generator (based on [Yeoman](https://yeoman.io/)):
 * Yeoman:
 
 ```bash
-$ npm -g install yo
+$ npm install -g yo
 ```
 
 ## Installation
@@ -25,7 +25,7 @@ $ npm -g install yo
 To install the generator:
 
 ```bash
-$ npm -g install @iic2513/generator-template
+$ npm install -g @iic2513/generator-template
 ```
 
 ## How does it work?
