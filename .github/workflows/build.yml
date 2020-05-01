@@ -62,6 +62,19 @@ jobs:
     - name: Install Yeoman globally
       run: npm -g install yo
 
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - name: Load yarn cache
+      uses: actions/cache@v1
+      id: yarn-cache
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-template-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-template-
+
     - name: Create project
       working-directory: ../
       run: yo @iic2513/template my-project --installDependencies
