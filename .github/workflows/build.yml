@@ -10,6 +10,7 @@ jobs:
   build_generator:
     name: Build and test generator
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
     strategy:
       matrix:
@@ -50,6 +51,7 @@ jobs:
     name: Create project and test it
     runs-on: ubuntu-latest
     needs: build_generator
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
     strategy:
       matrix:
