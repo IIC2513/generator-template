@@ -74,12 +74,11 @@ jobs:
     - name: Load yarn cache
       uses: actions/cache@v1
       id: yarn-cache
-      working-directory: ../my-project
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: ${{ runner.os }}-yarn-template-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
-          ${{ runner.os }}-yarn-
+          ${{ runner.os }}-yarn-template-
 
     - name: Install dependencies
       working-directory: ../my-project
