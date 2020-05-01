@@ -4182,10 +4182,10 @@ koa-static@^5.0.0:
     debug "^3.1.0"
     koa-send "^5.0.0"
 
-koa-webpack@^5.2.4:
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/koa-webpack/-/koa-webpack-5.2.4.tgz#817b67655e36ca9942c3cae93f6572d5898732cd"
-  integrity sha512-NQmX3p65P2Y0sb7WonkfbZRPGrvQYCGjcr4kp9k/hp6GhnZcvY+ZP+LHH4FWvxaCG63nPEx2S2p9jHmH4ErsVw==
+koa-webpack@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/koa-webpack/-/koa-webpack-5.3.0.tgz#b95bd83283ff665088f0ebdd10d47fc6857a9cbc"
+  integrity sha512-dAZ1Dpv5anpoKijjKHwxUv5nMumreEZtCvqneRlSltWXviJ7KiilwveuK2BMudrRsg8kWq52mo8ETR+VewE6Cg==
   dependencies:
     "@hapi/joi" "^15.0.0"
     app-root-path "^2.0.1"
