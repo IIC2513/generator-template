@@ -64,25 +64,7 @@ jobs:
 
     - name: Create project
       working-directory: ../
-      run: yo @iic2513/template my-project
-
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      working-directory: ../my-project
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-
-    - name: Load yarn cache
-      uses: actions/cache@v1
-      id: yarn-cache
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-template-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-template-
-
-    - name: Install dependencies
-      working-directory: ../my-project
-      run: yarn install
+      run: yo @iic2513/template my-project --installDependencies
 
     - name: Run linter
       working-directory: ../my-project
