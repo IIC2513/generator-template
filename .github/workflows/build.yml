@@ -160,6 +160,8 @@ jobs:
       run: yarn sequelize db:migrate
       env:
         NODE_ENV: test
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres
 
     - name: Create users router
       working-directory: ../my-project
@@ -244,6 +246,10 @@ jobs:
         module.exports = router;
 
         EOF
+
+    - name: Run linter
+      working-directory: ../my-project
+      run: yarn lint
 
     - name: Test template
       working-directory: ../my-project
