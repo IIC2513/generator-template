@@ -3,7 +3,9 @@ name: GitHub Package Manager Release
 on:
   push:
     tags:
-      - 'v*'
+      - v*
+  pull_request:
+    branches: [ dev ]
 
 jobs:
   release:
@@ -33,7 +35,7 @@ jobs:
     - run: yarn install
     - run: yarn test
     - name: Get version
-      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:11}
+      run: echo ::set-env name=RELEASE_VERSION::1.1.0
     - name: Set package version
       run: yarn version --new-version $RELEASE_VERSION --no-git-tag-version
     - run: yarn publish
