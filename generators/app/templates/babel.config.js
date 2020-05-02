@@ -6,7 +6,7 @@ module.exports = function babelConfig(api) {
         ie: '9',
         browsers: ['>1%', 'last 3 versions'],
       },
-      modules: false,
+      modules: babelEnv === 'test' ? 'auto' : false,
       useBuiltIns: 'usage',
       corejs: 3,
     }],

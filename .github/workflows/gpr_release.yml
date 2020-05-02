@@ -1,8 +1,9 @@
-name: NPM Release
+name: GitHub Package Manager Release
 
 on:
   push:
-    branches: [ master ]
+    tags:
+      - 'v*'
 
 jobs:
   release:
@@ -15,6 +16,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.10'
+        registry-url: https://npm.pkg.github.com/
 
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
@@ -30,7 +32,10 @@ jobs:
 
     - run: yarn install
     - run: yarn test
-    - run: yarn semantic-release
+    - name: Get version
+      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:11}
+    - name: Set package version
+      run: yarn version --new-version $RELEASE_VERSION --no-git-tag-version
+    - run: yarn publish
       env:
-        NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}
+        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

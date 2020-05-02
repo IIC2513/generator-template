@@ -12,6 +12,8 @@ module.exports = class extends Generator {
       required: false,
       type: String,
     });
+
+    this.option('installDependencies');
   }
 
   async prompting() {
@@ -30,6 +32,7 @@ module.exports = class extends Generator {
         type: 'confirm',
         name: 'installDependencies',
         message: 'Would you like install dependencies after setup?',
+        when: () => !this.options.installDependencies,
       },
     ]);
   }
@@ -52,7 +55,10 @@ module.exports = class extends Generator {
   }
 
   install() {
-    if (this.answers.installDependencies) {
+    const installDependencies = this.options.installDependencies
+     || this.answers.installDependencies;
+
+    if (installDependencies) {
       this.yarnInstall();
     }
   }
