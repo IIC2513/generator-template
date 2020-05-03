@@ -197,14 +197,17 @@ jobs:
         ];
 
         describe('GET /users', () => {
-          beforeAll(() => Promise.all(USERS.map(user.create)));
+          beforeAll(
+            () => sequelize.authenticate()
+              .then(() => Promise.all(USERS.map(user.create))),
+          );
+
           afterAll(
             () => user.truncate()
               .then(() => sequelize.close()),
           );
 
           test('responds with users list', async () => {
-            console.log(user);
             const response = await request.get('/users');
             expect(response.status).toBe(200);
             expect(response.body).toEqual(
