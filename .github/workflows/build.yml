@@ -179,7 +179,6 @@ jobs:
         });
 
         module.exports = router;
-
         EOF
 
     - name: Add users router tests
@@ -224,7 +223,6 @@ jobs:
             expect(cookieValue.example).toEqual('my-value');
           });
         });
-
         EOF
 
     - name: Add users router to application
@@ -244,7 +242,6 @@ jobs:
         router.use('/users', users.routes());
 
         module.exports = router;
-
         EOF
 
     - name: Run linter
