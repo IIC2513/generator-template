@@ -198,7 +198,7 @@ jobs:
 
         describe('GET /users', () => {
           beforeAll(() => Promise.all(USERS.map((u) => user.create(u))));
-          afterAll(() => user.truncate().then(sequelize.close));
+          afterAll(() => user.truncate().then(() => sequelize.close()));
 
           test('responds with users list', async () => {
             const response = await request.get('/users');
