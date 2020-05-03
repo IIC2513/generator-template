@@ -191,6 +191,8 @@ jobs:
         const request = supertest(app.callback());
         const { user, sequelize } = app.context.orm;
         console.log(user);
+        console.log(user.create);
+        console.log(app.context.orm);
 
         const USERS = [
           { name: 'John Doe', email: 'johndoe@example.org' },
