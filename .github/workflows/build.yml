@@ -189,6 +189,7 @@ jobs:
         const app = require('../app');
 
         const request = supertest(app.callback());
+        const { user, sequelize } = app.context.orm;
 
         const USERS = [
           { name: 'John Doe', email: 'johndoe@example.org' },
@@ -196,8 +197,11 @@ jobs:
         ];
 
         describe('GET /users', () => {
-          beforeAll(() => Promise.all(USERS.map(app.context.orm.user.create)));
-          afterAll(() => app.context.orm.user.truncate());
+          beforeAll(() => Promise.all(USERS.map(user.create)));
+          afterAll(
+            () => user.truncate()
+              .then(() => sequelize.close()),
+          );
 
           test('responds with users list', async () => {
             const response = await request.get('/users');
