@@ -196,8 +196,8 @@ jobs:
         ];
 
         describe('GET /users', () => {
-          beforeAll(() => Promise.all(USERS.map(app.context.orm.users.create)));
-          afterAll(() => app.context.orm.users.truncate());
+          beforeAll(() => Promise.all(USERS.map(app.context.orm.user.create)));
+          afterAll(() => app.context.orm.user.truncate());
 
           test('responds with users list', async () => {
             const response = await request.get('/users');
