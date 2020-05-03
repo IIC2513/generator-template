@@ -193,7 +193,7 @@ jobs:
         console.log(user);
         console.log(user.create);
         console.log(app.context.orm);
-        user.create({ name: 'John Doe', email: 'johndoe@example.org' })
+        user.create({ name: 'John Doe', email: 'johndoe@example.org' });
 
         const USERS = [
           { name: 'John Doe', email: 'johndoe@example.org' },
