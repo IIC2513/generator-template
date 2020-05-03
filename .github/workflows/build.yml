@@ -190,6 +190,7 @@ jobs:
 
         const request = supertest(app.callback());
         const { user, sequelize } = app.context.orm;
+        console.log(user);
 
         const USERS = [
           { name: 'John Doe', email: 'johndoe@example.org' },
@@ -208,7 +209,6 @@ jobs:
           );
 
           test('responds with users list', async () => {
-            console.log(user.create);
             const response = await request.get('/users');
             expect(response.status).toBe(200);
             expect(response.body).toEqual(
