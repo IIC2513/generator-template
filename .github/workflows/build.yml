@@ -204,6 +204,7 @@ jobs:
           );
 
           test('responds with users list', async () => {
+            console.log(user);
             const response = await request.get('/users');
             expect(response.status).toBe(200);
             expect(response.body).toEqual(
