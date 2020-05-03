@@ -190,10 +190,6 @@ jobs:
 
         const request = supertest(app.callback());
         const { user, sequelize } = app.context.orm;
-        console.log(user);
-        console.log(user.create);
-        console.log(app.context.orm);
-        user.create({ name: 'John Doe', email: 'johndoe@example.org' });
 
         const USERS = [
           { name: 'John Doe', email: 'johndoe@example.org' },
@@ -201,10 +197,7 @@ jobs:
         ];
 
         describe('GET /users', () => {
-          beforeAll(
-            () => sequelize.authenticate()
-              .then(() => Promise.all(USERS.map(user.create))),
-          );
+          beforeAll(() => Promise.all(USERS.map((u) => user.create(u))));
 
           afterAll(
             () => user.truncate()
