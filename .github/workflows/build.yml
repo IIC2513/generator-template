@@ -178,6 +178,33 @@ jobs:
           ctx.body = usersList;
         });
 
+        router.post('users.create', '/', async (ctx) => {
+          const user = ctx.orm.user.build(ctx.request.body);
+          try {
+            await user.save({ fields: ['code', 'name', 'description'] });
+            ctx.response.status = 201; // created
+          } catch (validationError) {
+            ctx.response.status = 500; // server error
+          }
+        });
+
+        router.patch('users.update', '/:id', loadCourse, async (ctx) => {
+          const user = ctx.orm.user.findByPk(ctx.params.id);
+          try {
+            const { code, name, description } = ctx.request.body;
+            await user.update({ code, name, description });
+            ctx.body = user;
+          } catch (validationError) {
+            ctx.response.status = 500; // server error
+          }
+        });
+
+        router.del('users.delete', '/:id', loadCourse, async (ctx) => {
+          const user = ctx.orm.user.findByPk(ctx.params.id);
+          await course.destroy();
+          ctx.response.status = 204; // no content
+        });
+
         module.exports = router;
         EOF
 
@@ -191,14 +218,15 @@ jobs:
         const request = supertest(app.callback());
         const { user, sequelize } = app.context.orm;
 
-        const USERS = [
-          { name: 'John Doe', email: 'johndoe@example.org' },
-          { name: 'Jane Doe', email: 'janedoe@example.org' },
-        ];
+        afterAll(() => sequelize.close());
 
         describe('GET /users', () => {
+          const USERS = [
+            { name: 'John Doe', email: 'johndoe@example.org' },
+            { name: 'Jane Doe', email: 'janedoe@example.org' },
+          ];
+
           beforeAll(() => Promise.all(USERS.map((u) => user.create(u))));
-          afterAll(() => user.truncate().then(() => sequelize.close()));
 
           test('responds with users list', async () => {
             const response = await request.get('/users');
@@ -222,6 +250,72 @@ jobs:
 
             expect(response.status).toBe(200);
             expect(cookieValue.example).toEqual('my-value');
+          });
+        });
+
+        describe('POST /users', () => {
+          const USER = {
+            name: 'New John Doe',
+            email: 'newjohndoe@example.org',
+          };
+
+          test('creates a user', async () => {
+            const response = await request
+              .post('/users')
+              .send(USER);
+            const createdUser = await user.findOne({
+              where: {
+                email: USER.email,
+              },
+            });
+
+            expect(response.status).toBe(201);
+            expect(createdUser).toBeDefined();
+          });
+        });
+
+        describe('PATCH /users', () => {
+          const USER_PARAMS = {
+            name: 'Edit John Doe',
+            email: 'editjohndoe@example.org',
+          };
+          const NEW_NAME = 'John Doe 2';
+          let editUser;
+
+          beforeAll(async () => {
+            editUser = await user.create(USER_PARAMS);
+          });
+
+          test('updates a user', async () => {
+            const response = await request
+              .patch(`/users/${editUser.id}`)
+              .send({ name: NEW_NAME });
+            await editUser.reload()
+
+            expect(response.status).toBe(200);
+            expect(editUser.name).toEqual(NEW_NAME);
+          });
+        });
+
+        describe('DELETE /users', () => {
+          const USER_PARAMS = {
+            name: 'Delete John Doe',
+            email: 'deljohndoe@example.org',
+          };
+          let deleteUser;
+
+          beforeAll(async () => {
+            deleteUser = await user.create(USER_PARAMS);
+          });
+
+          test('deletes a user', async () => {
+            const response = await request
+              .delete(`/users/${deleteUser.id}`)
+              .send({ name: NEW_NAME });
+            await deleteUser.reload()
+
+            expect(response.status).toBe(204);
+            expect(deleteUser).toBeUndefined();
           });
         });
         EOF
