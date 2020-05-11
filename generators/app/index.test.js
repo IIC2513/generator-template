@@ -17,18 +17,15 @@ describe('@iic2513/template:app', () => {
   context('when project name is an argument', () => {
     context('when dependencies must be installed after setup', () => {
       context('when installDependencies answer is Yes', () => {
-        it('generates a project', () => {
-          this.timeout(5000);
-
-          return helpers.run(__dirname)
-            .withArguments(projectName)
-            .withPrompts({ installDependencies: true })
-            .then((directory) => {
-              installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
-              const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
-              assert.file(fileList);
-            });
-        });
+        it('generates a project', () => helpers.run(__dirname)
+          .withArguments(projectName)
+          .withPrompts({ installDependencies: true })
+          .then((directory) => {
+            installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+            assert.file(fileList);
+          }))
+          .timeout(5000);
 
         it('installs dependencies', () => installStepCalled);
       });
@@ -41,7 +38,8 @@ describe('@iic2513/template:app', () => {
             installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
             const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
             assert.file(fileList);
-          }));
+          }))
+          .timeout(5000);
 
         it('installs dependencies', () => installStepCalled);
       });
@@ -80,7 +78,8 @@ describe('@iic2513/template:app', () => {
               installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
               const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
               assert.file(fileList);
-            }));
+            }))
+            .timeout(5000);
 
           it('installs dependencies', () => installStepCalled);
         });
@@ -93,7 +92,8 @@ describe('@iic2513/template:app', () => {
               installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
               const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
               assert.file(fileList);
-            }));
+            }))
+            .timeout(5000);
 
           it('installs dependencies', () => installStepCalled);
         });
