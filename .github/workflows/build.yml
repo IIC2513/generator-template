@@ -181,27 +181,27 @@ jobs:
         router.post('users.create', '/', async (ctx) => {
           const user = ctx.orm.user.build(ctx.request.body);
           try {
-            await user.save({ fields: ['code', 'name', 'description'] });
+            await user.save({ fields: ['name', 'email'] });
             ctx.response.status = 201; // created
           } catch (validationError) {
             ctx.response.status = 500; // server error
           }
         });
 
-        router.patch('users.update', '/:id', loadCourse, async (ctx) => {
+        router.patch('users.update', '/:id', async (ctx) => {
           const user = ctx.orm.user.findByPk(ctx.params.id);
           try {
-            const { code, name, description } = ctx.request.body;
-            await user.update({ code, name, description });
+            const { name, email } = ctx.request.body;
+            await user.update({ name, email });
             ctx.body = user;
           } catch (validationError) {
             ctx.response.status = 500; // server error
           }
         });
 
-        router.del('users.delete', '/:id', loadCourse, async (ctx) => {
+        router.del('users.delete', '/:id', async (ctx) => {
           const user = ctx.orm.user.findByPk(ctx.params.id);
-          await course.destroy();
+          await user.destroy();
           ctx.response.status = 204; // no content
         });
 
@@ -290,7 +290,7 @@ jobs:
             const response = await request
               .patch(`/users/${editUser.id}`)
               .send({ name: NEW_NAME });
-            await editUser.reload()
+            await editUser.reload();
 
             expect(response.status).toBe(200);
             expect(editUser.name).toEqual(NEW_NAME);
@@ -310,9 +310,8 @@ jobs:
 
           test('deletes a user', async () => {
             const response = await request
-              .delete(`/users/${deleteUser.id}`)
-              .send({ name: NEW_NAME });
-            await deleteUser.reload()
+              .delete(`/users/${deleteUser.id}`);
+            await deleteUser.reload();
 
             expect(response.status).toBe(204);
             expect(deleteUser).toBeUndefined();
