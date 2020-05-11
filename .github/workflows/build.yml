@@ -189,7 +189,7 @@ jobs:
         });
 
         router.patch('users.update', '/:id', async (ctx) => {
-          const user = ctx.orm.user.findByPk(ctx.params.id);
+          const user = await ctx.orm.user.findByPk(ctx.params.id);
           try {
             const { name, email } = ctx.request.body;
             await user.update({ name, email });
@@ -200,7 +200,7 @@ jobs:
         });
 
         router.del('users.delete', '/:id', async (ctx) => {
-          const user = ctx.orm.user.findByPk(ctx.params.id);
+          const user = await ctx.orm.user.findByPk(ctx.params.id);
           await user.destroy();
           ctx.response.status = 204; // no content
         });
