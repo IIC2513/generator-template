@@ -312,9 +312,11 @@ jobs:
             const response = await request
               .delete(`/users/${deleteUser.id}`);
             const deletedUser = await user.findByPk(deleteUser.id);
+            await deleteUser.reload();
+            console.log(deleteUser);
 
             expect(response.status).toBe(204);
-            expect(deletedUser).toBeUndefined();
+            expect(deletedUser).toBeNull();
           });
         });
         EOF
