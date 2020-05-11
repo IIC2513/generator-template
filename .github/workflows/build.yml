@@ -311,10 +311,10 @@ jobs:
           test('deletes a user', async () => {
             const response = await request
               .delete(`/users/${deleteUser.id}`);
-            await deleteUser.reload();
+            const deletedUser = await user.findByPk(deleteUser.id);
 
             expect(response.status).toBe(204);
-            expect(deleteUser).toBeUndefined();
+            expect(deletedUser).toBeUndefined();
           });
         });
         EOF
