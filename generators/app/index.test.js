@@ -19,13 +19,9 @@ describe('@iic2513/template:app', () => {
       context('when installDependencies answer is Yes', () => {
         it('generates a project', () => helpers.run(__dirname)
           .withArguments(projectName)
-          .withOptions({ skipInstall: false })
           .withPrompts({ installDependencies: true })
-          .on('ready', (generator) => {
-            // eslint-disable-next-line no-param-reassign
-            generator.yarnInstall = () => { installStepCalled = true; };
-          })
-          .then(() => {
+          .then((directory) => {
+            installStepCalled = fs.existsSync(`${directory}/node_modules`);
             const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
             assert.file(fileList);
           }));
@@ -36,12 +32,9 @@ describe('@iic2513/template:app', () => {
       context('when installDependencies option is present', () => {
         it('generates a project', () => helpers.run(__dirname)
           .withArguments(projectName)
-          .withOptions({ installDependencies: true, skipInstall: false })
-          .on('ready', (generator) => {
-            // eslint-disable-next-line no-param-reassign
-            generator.yarnInstall = () => { installStepCalled = true; };
-          })
-          .then(() => {
+          .withOptions({ installDependencies: true })
+          .then((directory) => {
+            installStepCalled = fs.existsSync(`${directory}/node_modules`);
             const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
             assert.file(fileList);
           }));
@@ -53,13 +46,9 @@ describe('@iic2513/template:app', () => {
     context('when dependencies must not be installed after setup', () => {
       it('generates a project', () => helpers.run(__dirname)
         .withArguments(projectName)
-        .withOptions({ skipInstall: false })
         .withPrompts({ installDependencies: false })
-        .on('ready', (generator) => {
-          // eslint-disable-next-line no-param-reassign
-          generator.yarnInstall = () => { installStepCalled = true; };
-        })
-        .then(() => {
+        .then((directory) => {
+          installStepCalled = fs.existsSync(`${directory}/node_modules`);
           const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
           assert.file(fileList);
         }));
@@ -82,13 +71,9 @@ describe('@iic2513/template:app', () => {
       context('when dependencies must be installed after setup', () => {
         context('when installDependencies answer is Yes', () => {
           it('generates a project', () => helpers.run(__dirname)
-            .withOptions({ skipInstall: false })
             .withPrompts({ installDependencies: true, projectName })
-            .on('ready', (generator) => {
-              // eslint-disable-next-line no-param-reassign
-              generator.yarnInstall = () => { installStepCalled = true; };
-            })
-            .then(() => {
+            .then((directory) => {
+              installStepCalled = fs.existsSync(`${directory}/node_modules`);
               const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
               assert.file(fileList);
             }));
@@ -98,13 +83,10 @@ describe('@iic2513/template:app', () => {
 
         context('when installDependencies option is present', () => {
           it('generates a project', () => helpers.run(__dirname)
-            .withOptions({ installDependencies: true, skipInstall: false })
+            .withOptions({ installDependencies: true })
             .withPrompts({ projectName })
-            .on('ready', (generator) => {
-              // eslint-disable-next-line no-param-reassign
-              generator.yarnInstall = () => { installStepCalled = true; };
-            })
-            .then(() => {
+            .then((directory) => {
+              installStepCalled = fs.existsSync(`${directory}/node_modules`);
               const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
               assert.file(fileList);
             }));
@@ -116,13 +98,9 @@ describe('@iic2513/template:app', () => {
       context('when dependencies must not be installed after setup', () => {
         it('generates a project', () => helpers.run(__dirname)
           .withArguments(projectName)
-          .withOptions({ skipInstall: false })
           .withPrompts({ installDependencies: true, projectName })
-          .on('ready', (generator) => {
-            // eslint-disable-next-line no-param-reassign
-            generator.yarnInstall = () => { installStepCalled = true; };
-          })
-          .then(() => {
+          .then((directory) => {
+            installStepCalled = fs.existsSync(`${directory}/node_modules`);
             const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
             assert.file(fileList);
           }));
