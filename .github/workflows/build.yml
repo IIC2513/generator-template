@@ -302,18 +302,16 @@ jobs:
             name: 'Delete John Doe',
             email: 'deljohndoe@example.org',
           };
-          let deleteUser;
+          let userToDelete;
 
           beforeAll(async () => {
-            deleteUser = await user.create(USER_PARAMS);
+            userToDelete = await user.create(USER_PARAMS);
           });
 
           test('deletes a user', async () => {
             const response = await request
-              .delete(`/users/${deleteUser.id}`);
-            const deletedUser = await user.findByPk(deleteUser.id);
-            await deleteUser.reload();
-            console.log(deleteUser);
+              .delete(`/users/${userToDelete.id}`);
+            const deletedUser = await user.findByPk(userToDelete.id);
 
             expect(response.status).toBe(204);
             expect(deletedUser).toBeNull();
