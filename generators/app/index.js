@@ -12,6 +12,10 @@ module.exports = class extends Generator {
       required: false,
       type: String,
     });
+
+    this.option('installDependencies');
+
+    this.option('docker');
   }
 
   async prompting() {
@@ -30,6 +34,7 @@ module.exports = class extends Generator {
         type: 'confirm',
         name: 'installDependencies',
         message: 'Would you like install dependencies after setup?',
+        when: () => !this.options.installDependencies && !this.options.docker,
       },
     ]);
   }
@@ -48,11 +53,20 @@ module.exports = class extends Generator {
       { globOptions: { dot: true } },
     );
 
+    if (this.options.docker) {
+      this.fs.copy(this.templatePath('../docker/'), this.destinationPath(), {
+        globOptions: { dot: true },
+      });
+    }
+
     this.fs.extendJSON(this.destinationPath('package.json'), { name: this.projectName });
   }
 
   install() {
-    if (this.answers.installDependencies) {
+    const installDependencies = this.options.installDependencies
+     || this.answers.installDependencies;
+
+    if (installDependencies) {
       this.yarnInstall();
     }
   }

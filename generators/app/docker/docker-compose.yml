@@ -1,0 +1,36 @@
+version: "3.7"
+services:
+  app:
+    container_name: app
+    build: .
+    depends_on:
+      - db
+    command: yarn dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    env_file: .env
+    ports:
+      - "3000:3000"
+    networks:
+      - app-net
+
+  db:
+    container_name: db
+    image: postgres:12.2
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - app-net
+
+volumes:
+  dbdata:
+
+networks:
+  app-net:
