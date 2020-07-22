@@ -1,4 +1,4 @@
-FROM node:12.16-alpine
+FROM node:12-alpine
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY ./package*.json .
 COPY ./yarn.lock .
 
-RUN npm install
+RUN yarn install
 
 COPY . .
 
