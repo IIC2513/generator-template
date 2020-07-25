@@ -7,6 +7,7 @@ const path = require('path');
 describe('@iic2513/template:app', () => {
   const projectName = 'test-project';
   let installStepCalled = false;
+  let dockerStepCalled = false;
 
   before(() => { sinon.stub(console, 'log').returns(); });
   // eslint-disable-next-line no-console
@@ -47,6 +48,23 @@ describe('@iic2513/template:app', () => {
         }));
 
       it('does not install dependencies', () => !installStepCalled);
+    });
+
+    context('when docker options is selected', () => {
+      it('generates all docker files', () => helpers.run(__dirname)
+        .withArguments(projectName)
+        .withOptions({ docker: true })
+        .withPrompts({ installDependencies: false })
+        .on('ready', (generator) => {
+          // eslint-disable-next-line no-param-reassign
+          generator.yarnInstall = () => { dockerStepCalled = true; };
+        })
+        .then(() => {
+          const fileList = fs.readdirSync(path.join(__dirname, 'docker'));
+          assert.file(fileList);
+        }));
+
+      it('does not generate docker files', () => !dockerStepCalled);
     });
   });
 
@@ -92,6 +110,23 @@ describe('@iic2513/template:app', () => {
           }));
 
         it('does not install dependencies', () => !installStepCalled);
+      });
+
+      context('when docker options is selected', () => {
+        it('generates all docker files', () => helpers.run(__dirname)
+          .withArguments(projectName)
+          .withOptions({ docker: true })
+          .withPrompts({ installDependencies: false, projectName })
+          .on('ready', (generator) => {
+            // eslint-disable-next-line no-param-reassign
+            generator.yarnInstall = () => { dockerStepCalled = true; };
+          })
+          .then(() => {
+            const fileList = fs.readdirSync(path.join(__dirname, 'docker'));
+            assert.file(fileList);
+          }));
+
+        it('does not generate docker files', () => !dockerStepCalled);
       });
     });
   });
