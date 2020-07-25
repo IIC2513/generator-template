@@ -1,15 +1,12 @@
-# Ignore everything
-*
-
-# Include application files
-!src
-!.nvmrc
-!.sequelizerc
-!babel.config.js
-!index.js
-!nodemon.js
-
-# Include build files
-!package.json
-!webpack.config.js
-!yarn.lock
+.dockerignore
+.DS_Store
+.editorconfig
+.eslintrc
+.env
+.env-sample
+.git
+.gitignore
+docker-compose.yml
+Dockerfile
+README.md
+node_modules
