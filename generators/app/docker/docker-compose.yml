@@ -14,8 +14,6 @@ services:
     env_file: .env
     ports:
       - "3000:3000"
-    networks:
-      - app-net
 
   db:
     container_name: db
@@ -26,11 +24,6 @@ services:
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - dbdata:/var/lib/postgresql/data
-    networks:
-      - app-net
 
 volumes:
   dbdata:
-
-networks:
-  app-net:
