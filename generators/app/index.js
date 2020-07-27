@@ -14,7 +14,7 @@ module.exports = class extends Generator {
     });
 
     this.option('installDependencies');
-    
+
     this.option('docker');
   }
 
