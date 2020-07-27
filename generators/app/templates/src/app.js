@@ -16,6 +16,7 @@ const orm = require('./models');
 const app = new Koa();
 
 const developmentMode = app.env === 'development';
+const testMode = app.env === 'test';
 
 app.keys = [
   'these secret keys are used to sign HTTP cookies',
@@ -38,7 +39,9 @@ app.use((ctx, next) => {
 });
 
 // log requests
-app.use(koaLogger());
+if (!testMode) {
+  app.use(koaLogger());
+}
 
 // webpack middleware for dev mode only
 if (developmentMode) {

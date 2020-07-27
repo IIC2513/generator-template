@@ -12,12 +12,12 @@ The first version was developed some time ago (you can see the repo [here](https
 
 To run this generator (based on [Yeoman](https://yeoman.io/)):
 
-* NodeJS v12.16 or above
+* NodeJS LTS (10.x or 12.x)
 * Yarn
 * Yeoman:
 
 ```bash
-$ yarn global add yo
+$ npm install -g yo
 ```
 
 ## Installation
@@ -25,7 +25,7 @@ $ yarn global add yo
 To install the generator:
 
 ```bash
-$ yarn global add @iic2513/generator-template
+$ npm install -g @iic2513/generator-template
 ```
 
 ## How does it work?
