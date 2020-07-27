@@ -13,7 +13,10 @@ describe('@iic2513/template:app', () => {
   // eslint-disable-next-line no-console
   after(() => console.log.restore());
 
-  beforeEach(() => { installStepCalled = false; });
+  beforeEach(() => {
+    installStepCalled = false;
+    dockerStepCalled = false;
+  });
 
   context('when project name is an argument', () => {
     context('when dependencies must be installed after setup', () => {
@@ -64,11 +67,8 @@ describe('@iic2513/template:app', () => {
         .withArguments(projectName)
         .withOptions({ docker: true })
         .withPrompts({ installDependencies: false })
-        .on('ready', (generator) => {
-          // eslint-disable-next-line no-param-reassign
-          generator.yarnInstall = () => { dockerStepCalled = true; };
-        })
-        .then(() => {
+        .then((directory) => {
+          dockerStepCalled = fs.existsSync(path.join(directory, 'Dockerfile'));
           const fileList = fs.readdirSync(path.join(__dirname, 'docker'));
           assert.file(fileList);
         }));
@@ -135,11 +135,8 @@ describe('@iic2513/template:app', () => {
           .withArguments(projectName)
           .withOptions({ docker: true })
           .withPrompts({ installDependencies: false, projectName })
-          .on('ready', (generator) => {
-            // eslint-disable-next-line no-param-reassign
-            generator.yarnInstall = () => { dockerStepCalled = true; };
-          })
-          .then(() => {
+          .then((directory) => {
+            dockerStepCalled = fs.existsSync(path.join(directory, 'Dockerfile'));
             const fileList = fs.readdirSync(path.join(__dirname, 'docker'));
             assert.file(fileList);
           }));
