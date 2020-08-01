@@ -61,7 +61,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.21",
-    "sequelize": "^6.2.4",
+    "sequelize": "^6.3.3",
     "sequelize-cli": "^6.1.0"
   },
   "engines": {
