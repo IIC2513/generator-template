@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "koa": "^2.12.0",
+    "koa": "^2.13.0",
     "koa-body": "^4.2.0",
     "koa-ejs": "^4.3.0",
     "koa-flash-message": "^0.1.6",
