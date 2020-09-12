@@ -48,15 +48,17 @@ module.exports = class extends Generator {
   writing() {
     // Copy all files
     this.fs.copy(
-      this.templatePath(),
+      path.join(this.templatePath(), 'base'),
       this.destinationPath(),
       { globOptions: { dot: true } },
     );
 
     if (this.options.docker) {
-      this.fs.copy(this.templatePath('../docker/'), this.destinationPath(), {
-        globOptions: { dot: true },
-      });
+      this.fs.copy(
+        path.join(this.templatePath(), 'docker'),
+        this.destinationPath(),
+        { globOptions: { dot: true } },
+      );
     }
 
     this.fs.extendJSON(this.destinationPath('package.json'), { name: this.projectName });

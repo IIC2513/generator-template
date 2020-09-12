@@ -26,7 +26,7 @@ describe('@iic2513/template:app', () => {
           .withPrompts({ installDependencies: true })
           .then((directory) => {
             installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
-            const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
             assert.file(fileList);
           }))
           .timeout(5000);
@@ -40,7 +40,7 @@ describe('@iic2513/template:app', () => {
           .withOptions({ installDependencies: true })
           .then((directory) => {
             installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
-            const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
             assert.file(fileList);
           }))
           .timeout(5000);
@@ -55,7 +55,7 @@ describe('@iic2513/template:app', () => {
         .withPrompts({ installDependencies: false })
         .then((directory) => {
           installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
-          const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+          const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
           assert.file(fileList);
         }));
 
@@ -69,7 +69,7 @@ describe('@iic2513/template:app', () => {
         .withPrompts({ installDependencies: false })
         .then((directory) => {
           dockerStepCalled = fs.existsSync(path.join(directory, 'Dockerfile'));
-          const fileList = fs.readdirSync(path.join(__dirname, 'docker'));
+          const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'docker'));
           assert.file(fileList);
         }));
 
@@ -82,7 +82,7 @@ describe('@iic2513/template:app', () => {
       it('fails', () => assert.rejects(() => helpers.run(__dirname)
         .withPrompts({ installDependencies: true, projectName: '' })
         .then(() => {
-          const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+          const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
           assert.file(fileList);
         })));
     });
@@ -94,7 +94,7 @@ describe('@iic2513/template:app', () => {
             .withPrompts({ installDependencies: true, projectName })
             .then((directory) => {
               installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
-              const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+              const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
               assert.file(fileList);
             }))
             .timeout(5000);
@@ -108,7 +108,7 @@ describe('@iic2513/template:app', () => {
             .withPrompts({ projectName })
             .then((directory) => {
               installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
-              const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+              const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
               assert.file(fileList);
             }))
             .timeout(5000);
@@ -123,7 +123,7 @@ describe('@iic2513/template:app', () => {
           .withPrompts({ installDependencies: true, projectName })
           .then((directory) => {
             installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
-            const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
             assert.file(fileList);
           }));
 
@@ -137,7 +137,7 @@ describe('@iic2513/template:app', () => {
           .withPrompts({ installDependencies: false, projectName })
           .then((directory) => {
             dockerStepCalled = fs.existsSync(path.join(directory, 'Dockerfile'));
-            const fileList = fs.readdirSync(path.join(__dirname, 'docker'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'docker'));
             assert.file(fileList);
           }));
 
