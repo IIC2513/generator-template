@@ -7,28 +7,29 @@ const path = require('path');
 describe('@iic2513/template:app', () => {
   const projectName = 'test-project';
   let installStepCalled = false;
+  let dockerStepCalled = false;
 
   before(() => { sinon.stub(console, 'log').returns(); });
   // eslint-disable-next-line no-console
   after(() => console.log.restore());
 
-  beforeEach(() => { installStepCalled = false; });
+  beforeEach(() => {
+    installStepCalled = false;
+    dockerStepCalled = false;
+  });
 
   context('when project name is an argument', () => {
     context('when dependencies must be installed after setup', () => {
       context('when installDependencies answer is Yes', () => {
         it('generates a project', () => helpers.run(__dirname)
           .withArguments(projectName)
-          .withOptions({ skipInstall: false })
           .withPrompts({ installDependencies: true })
-          .on('ready', (generator) => {
-            // eslint-disable-next-line no-param-reassign
-            generator.yarnInstall = () => { installStepCalled = true; };
-          })
-          .then(() => {
-            const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+          .then((directory) => {
+            installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
             assert.file(fileList);
-          }));
+          }))
+          .timeout(5000);
 
         it('installs dependencies', () => installStepCalled);
       });
@@ -36,15 +37,13 @@ describe('@iic2513/template:app', () => {
       context('when installDependencies option is present', () => {
         it('generates a project', () => helpers.run(__dirname)
           .withArguments(projectName)
-          .withOptions({ installDependencies: true, skipInstall: false })
-          .on('ready', (generator) => {
-            // eslint-disable-next-line no-param-reassign
-            generator.yarnInstall = () => { installStepCalled = true; };
-          })
-          .then(() => {
-            const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+          .withOptions({ installDependencies: true })
+          .then((directory) => {
+            installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
             assert.file(fileList);
-          }));
+          }))
+          .timeout(5000);
 
         it('installs dependencies', () => installStepCalled);
       });
@@ -53,18 +52,28 @@ describe('@iic2513/template:app', () => {
     context('when dependencies must not be installed after setup', () => {
       it('generates a project', () => helpers.run(__dirname)
         .withArguments(projectName)
-        .withOptions({ skipInstall: false })
         .withPrompts({ installDependencies: false })
-        .on('ready', (generator) => {
-          // eslint-disable-next-line no-param-reassign
-          generator.yarnInstall = () => { installStepCalled = true; };
-        })
-        .then(() => {
-          const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+        .then((directory) => {
+          installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
+          const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
           assert.file(fileList);
         }));
 
       it('does not install dependencies', () => !installStepCalled);
+    });
+
+    context('when docker options is selected', () => {
+      it('generates all docker files', () => helpers.run(__dirname)
+        .withArguments(projectName)
+        .withOptions({ docker: true })
+        .withPrompts({ installDependencies: false })
+        .then((directory) => {
+          dockerStepCalled = fs.existsSync(path.join(directory, 'Dockerfile'));
+          const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'docker'));
+          assert.file(fileList);
+        }));
+
+      it('does not generate docker files', () => !dockerStepCalled);
     });
   });
 
@@ -73,7 +82,7 @@ describe('@iic2513/template:app', () => {
       it('fails', () => assert.rejects(() => helpers.run(__dirname)
         .withPrompts({ installDependencies: true, projectName: '' })
         .then(() => {
-          const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+          const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
           assert.file(fileList);
         })));
     });
@@ -82,32 +91,27 @@ describe('@iic2513/template:app', () => {
       context('when dependencies must be installed after setup', () => {
         context('when installDependencies answer is Yes', () => {
           it('generates a project', () => helpers.run(__dirname)
-            .withOptions({ skipInstall: false })
             .withPrompts({ installDependencies: true, projectName })
-            .on('ready', (generator) => {
-              // eslint-disable-next-line no-param-reassign
-              generator.yarnInstall = () => { installStepCalled = true; };
-            })
-            .then(() => {
-              const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+            .then((directory) => {
+              installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
+              const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
               assert.file(fileList);
-            }));
+            }))
+            .timeout(5000);
 
           it('installs dependencies', () => installStepCalled);
         });
 
         context('when installDependencies option is present', () => {
           it('generates a project', () => helpers.run(__dirname)
-            .withOptions({ installDependencies: true, skipInstall: false })
+            .withOptions({ installDependencies: true })
             .withPrompts({ projectName })
-            .on('ready', (generator) => {
-              // eslint-disable-next-line no-param-reassign
-              generator.yarnInstall = () => { installStepCalled = true; };
-            })
-            .then(() => {
-              const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+            .then((directory) => {
+              installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
+              const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
               assert.file(fileList);
-            }));
+            }))
+            .timeout(5000);
 
           it('installs dependencies', () => installStepCalled);
         });
@@ -116,18 +120,28 @@ describe('@iic2513/template:app', () => {
       context('when dependencies must not be installed after setup', () => {
         it('generates a project', () => helpers.run(__dirname)
           .withArguments(projectName)
-          .withOptions({ skipInstall: false })
           .withPrompts({ installDependencies: true, projectName })
-          .on('ready', (generator) => {
-            // eslint-disable-next-line no-param-reassign
-            generator.yarnInstall = () => { installStepCalled = true; };
-          })
-          .then(() => {
-            const fileList = fs.readdirSync(path.join(__dirname, 'templates'));
+          .then((directory) => {
+            installStepCalled = fs.existsSync(path.join(directory, 'node_modules'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'base'));
             assert.file(fileList);
           }));
 
         it('does not install dependencies', () => !installStepCalled);
+      });
+
+      context('when docker options is selected', () => {
+        it('generates all docker files', () => helpers.run(__dirname)
+          .withArguments(projectName)
+          .withOptions({ docker: true })
+          .withPrompts({ installDependencies: false, projectName })
+          .then((directory) => {
+            dockerStepCalled = fs.existsSync(path.join(directory, 'Dockerfile'));
+            const fileList = fs.readdirSync(path.join(__dirname, 'templates', 'docker'));
+            assert.file(fileList);
+          }));
+
+        it('does not generate docker files', () => !dockerStepCalled);
       });
     });
   });

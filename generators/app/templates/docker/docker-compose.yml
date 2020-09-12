@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  app:
+    container_name: app
+    build: .
+    depends_on:
+      - db
+    command: yarn dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      NODE_ENV: development
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: iic2513
+      DB_HOST: db
+    ports:
+      - "3000:3000"
+
+  db:
+    container_name: db
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: iic2513

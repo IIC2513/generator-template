@@ -94,3 +94,257 @@ jobs:
     - name: Run tests
       working-directory: ../my-project
       run: yarn test
+
+  test_template:
+    name: Test template
+    runs-on: ubuntu-latest
+    needs: build_generator
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: iic2513template_test
+          POSTGRES_PASSWORD: postgres
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Link project
+      run: npm link
+
+    - name: Install Yeoman globally
+      run: npm -g install yo
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - name: Load yarn cache
+      uses: actions/cache@v1
+      id: yarn-cache
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-template-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-template-
+
+    - name: Create project
+      working-directory: ../
+      run: yo @iic2513/template my-project --installDependencies
+
+    - name: Create model
+      working-directory: ../my-project
+      run: yo @iic2513/template:model user name:string,email:string --create
+
+    - name: Run migration
+      working-directory: ../my-project
+      run: yarn sequelize db:migrate
+      env:
+        NODE_ENV: test
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres
+
+    - name: Create users router
+      working-directory: ../my-project
+      run: |
+        cat > ./src/routes/users.js <<- "EOF"
+        const KoaRouter = require('koa-router');
+
+        const router = new KoaRouter();
+
+        router.get('users.list', '/', async (ctx) => {
+          const usersList = await ctx.orm.user.findAll();
+
+          ctx.session.example = 'my-value';
+          ctx.body = usersList;
+        });
+
+        router.post('users.create', '/', async (ctx) => {
+          const user = ctx.orm.user.build(ctx.request.body);
+          try {
+            await user.save({ fields: ['name', 'email'] });
+            ctx.response.status = 201; // created
+          } catch (validationError) {
+            ctx.response.status = 500; // server error
+          }
+        });
+
+        router.patch('users.update', '/:id', async (ctx) => {
+          const user = await ctx.orm.user.findByPk(ctx.params.id);
+          try {
+            const { name, email } = ctx.request.body;
+            await user.update({ name, email });
+            ctx.body = user;
+          } catch (validationError) {
+            ctx.response.status = 500; // server error
+          }
+        });
+
+        router.del('users.delete', '/:id', async (ctx) => {
+          const user = await ctx.orm.user.findByPk(ctx.params.id);
+          await user.destroy();
+          ctx.response.status = 204; // no content
+        });
+
+        module.exports = router;
+        EOF
+
+    - name: Add users router tests
+      working-directory: ../my-project
+      run: |
+        cat > ./src/routes/users.test.js <<- "EOF"
+        const supertest = require('supertest');
+        const app = require('../app');
+
+        const request = supertest(app.callback());
+        const { user, sequelize } = app.context.orm;
+
+        afterAll(() => sequelize.close());
+
+        describe('GET /users', () => {
+          const USERS = [
+            { name: 'John Doe', email: 'johndoe@example.org' },
+            { name: 'Jane Doe', email: 'janedoe@example.org' },
+          ];
+
+          beforeAll(() => Promise.all(USERS.map((u) => user.create(u))));
+
+          test('responds with users list', async () => {
+            const response = await request.get('/users');
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(
+              expect.arrayContaining(USERS.map(expect.objectContaining)),
+            );
+          });
+
+          test('responds with cookie', async () => {
+            const response = await request.get('/users');
+            const rawCookie = response.header['set-cookie']
+              .find((cookie) => cookie.startsWith('koa.sess='));
+
+            const cookieValue = JSON.parse(Buffer.from(
+              rawCookie
+                .replace('koa.sess=', '')
+                .substring(0, rawCookie.indexOf(';')),
+              'base64',
+            ).toString('utf8'));
+
+            expect(response.status).toBe(200);
+            expect(cookieValue.example).toEqual('my-value');
+          });
+        });
+
+        describe('POST /users', () => {
+          const USER = {
+            name: 'New John Doe',
+            email: 'newjohndoe@example.org',
+          };
+
+          test('creates a user', async () => {
+            const response = await request
+              .post('/users')
+              .send(USER);
+            const createdUser = await user.findOne({
+              where: {
+                email: USER.email,
+              },
+            });
+
+            expect(response.status).toBe(201);
+            expect(createdUser).toBeDefined();
+          });
+        });
+
+        describe('PATCH /users', () => {
+          const USER_PARAMS = {
+            name: 'Edit John Doe',
+            email: 'editjohndoe@example.org',
+          };
+          const NEW_NAME = 'John Doe 2';
+          let editUser;
+
+          beforeAll(async () => {
+            editUser = await user.create(USER_PARAMS);
+          });
+
+          test('updates a user', async () => {
+            const response = await request
+              .patch(`/users/${editUser.id}`)
+              .send({ name: NEW_NAME });
+            await editUser.reload();
+
+            expect(response.status).toBe(200);
+            expect(editUser.name).toEqual(NEW_NAME);
+          });
+        });
+
+        describe('DELETE /users', () => {
+          const USER_PARAMS = {
+            name: 'Delete John Doe',
+            email: 'deljohndoe@example.org',
+          };
+          let userToDelete;
+
+          beforeAll(async () => {
+            userToDelete = await user.create(USER_PARAMS);
+          });
+
+          test('deletes a user', async () => {
+            const response = await request
+              .delete(`/users/${userToDelete.id}`);
+            const deletedUser = await user.findByPk(userToDelete.id);
+
+            expect(response.status).toBe(204);
+            expect(deletedUser).toBeNull();
+          });
+        });
+        EOF
+
+    - name: Add users router to application
+      working-directory: ../my-project
+      run: |
+        cat > ./src/routes.js <<- "EOF"
+        const KoaRouter = require('koa-router');
+
+        const users = require('./routes/users');
+        const hello = require('./routes/hello');
+        const index = require('./routes/index');
+
+        const router = new KoaRouter();
+
+        router.use('/', index.routes());
+        router.use('/hello', hello.routes());
+        router.use('/users', users.routes());
+
+        module.exports = router;
+        EOF
+
+    - name: Run linter
+      working-directory: ../my-project
+      run: yarn lint
+
+    - name: Test template
+      working-directory: ../my-project
+      run: yarn test
+      env:
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres

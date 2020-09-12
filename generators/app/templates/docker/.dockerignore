@@ -1,0 +1,12 @@
+.dockerignore
+.DS_Store
+.editorconfig
+.eslintrc
+.env
+.env-sample
+.git
+.gitignore
+docker-compose.yml
+Dockerfile
+README.md
+node_modules
