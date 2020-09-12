@@ -3,7 +3,7 @@ name: GitHub Package Manager Release
 on:
   push:
     tags:
-      - v*
+      - 'v*'
 
 jobs:
   release:
